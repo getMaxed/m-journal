@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { database } from '../firebase'
 import _ from 'lodash'
+import { connect } from 'react-redux'
+import {getNotes, saveNotes} from '../actions/notesAction'
 
 class App extends Component {
 
@@ -19,9 +21,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        database.on('value', snapshot => {
-            this.setState = ({notes: snapshot.val()})
-        })
+        this.props.getNotes()
     }
 
     handleChange(e) {
@@ -36,7 +36,7 @@ class App extends Component {
             title: this.state.title,
             body: this.state.body
         }
-        database.push(note)
+        this.props.saveNote()
         this.setState({
             title: '',
             body: ''
@@ -56,40 +56,38 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="row">
-                        <div className="col-sm-6 col-sm-offset-3">
-                            <form onSubmit={this.handleSubmit}>
-                                <div className="form-group">
-                                    <input
-                                        onChange={this.handleChange}
-                                        value={this.state.title}
-                                        type="text"
-                                        name="title"
-                                        className="form-control no-border"
-                                        placeholder="Title..."
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <textarea
-                                        onChange={this.handleChange}
-                                        value={this.state.body}
-                                        type="text"
-                                        name="body"
-                                        className="form-control no-border"
-                                        placeholder="Body..."
-                                        required
-                                    />
-                                </div>
+            <div className="container">
+                <div className="row mt-5">
+                    <div className="col-sm-6 col-sm-offset-3">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="form-group">
+                                <input
+                                    onChange={this.handleChange}
+                                    value={this.state.title}
+                                    type="text"
+                                    name="title"
+                                    className="form-control no-border"
+                                    placeholder="Title..."
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <textarea
+                                    onChange={this.handleChange}
+                                    value={this.state.body}
+                                    type="text"
+                                    name="body"
+                                    className="form-control no-border"
+                                    placeholder="Body..."
+                                    required
+                                />
+                            </div>
 
-                                <div className="form-group">
-                                    <button className="btn btn-primary col-sm-12">Save</button>
-                                </div>
-                            </form>
-                            {this.renderNotes()}
-                        </div>
+                            <div className="form-group">
+                                <button className="btn btn-primary col-sm-12">Save</button>
+                            </div>
+                        </form>
+                        {this.renderNotes()}
                     </div>
                 </div>
             </div>
@@ -97,4 +95,17 @@ class App extends Component {
     }
 }
 
-export default App;
+function mapStateToProps(state, ownProps) {
+    return {
+        notes: state.notes
+    }
+}
+
+function mapDispatchToProps() {
+    return {
+        getNotes,
+        saveNotes
+    }
+}
+
+export default connect(mapStateToProps, {getNotes, saveNotes})(App);
