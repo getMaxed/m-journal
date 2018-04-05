@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { database } from '../firebase'
+import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import {getNotes, saveNotes} from '../actions/notesAction'
+import {getNotes, saveNote, deleteNote} from '../actions/notesAction'
+import NoteCard from './NoteCard'
 
 class App extends Component {
 
@@ -11,8 +11,7 @@ class App extends Component {
 
         this.state = {
             title: '',
-            body: '',
-            notes: {}
+            body: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -36,7 +35,7 @@ class App extends Component {
             title: this.state.title,
             body: this.state.body
         }
-        this.props.saveNote()
+        this.props.saveNote(note)
         this.setState({
             title: '',
             body: ''
@@ -44,12 +43,13 @@ class App extends Component {
     }
 
     renderNotes() {
-        return _.map(this.state.notes, (note, key) => {
+        return _.map(this.props.notes, (note, key) => {
             return (
-                <div key={key}>
+                <NoteCard key={key}>
                     <h2>{note.title}</h2>
                     <p>{note.body}</p>
-                </div>
+                    <button className="btn btn-danger btn-xs" onClick={() => this.props.deleteNote(key)}>Delete</button>
+                </NoteCard>
             )
         })
     }
@@ -101,11 +101,10 @@ function mapStateToProps(state, ownProps) {
     }
 }
 
-function mapDispatchToProps() {
-    return {
-        getNotes,
-        saveNotes
-    }
+const mapDispatchToProps = {
+    getNotes,
+    saveNote,
+    deleteNote
 }
 
-export default connect(mapStateToProps, {getNotes, saveNotes})(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
