@@ -14,23 +14,17 @@ import Login from './components/Login'
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 const Header = () => (
-    <nav className="navbar navbar-default">
-        <div className="container-fluid">
-            <div className="navbar-header">
-                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span className="icon bar" />
-                    <span className="icon bar" />
-                    <span className="icon bar" />
-                </button>
-                    <Link className="navbar-brand" to="/">
-                        MyMoments
-                    </Link>
-                </div>
-            <div className="collapse navbar-collapse" id="myNavbar">
-                <ul className="nav navbar-nav navbar-right">
-                    <li><Link to="/login">Login</Link></li>
-                </ul>
-            </div>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <Link className="navbar-brand" to="/">
+            MyMoments
+       </Link>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="myNavbar">
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item"><Link to="/login" className = "nav-link">Login</Link></li>
+            </ul>
         </div>
     </nav>
 )
