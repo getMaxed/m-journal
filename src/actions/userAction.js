@@ -19,3 +19,7 @@ export function googleLogin() {
 export function twitterLogin() {
     return auth.signInWithPopup(twitterProvider)
 }
+
+export function logout() {
+    return dispatch => auth.signOut()
+}
