@@ -15,13 +15,13 @@ class Header extends Component {
                 </button>
                 <div className="collapse navbar-collapse" id="myNavbar">
                     <ul className="navbar-nav mr-auto">
-                        {
-                            this.props.user === null ? (
+
+                            {this.props.user === null ? (
                                 <li className="nav-item"><Link to="/login" className = "nav-link">Login</Link></li>
                             ) : (
                                 <li className="nav-item"><Link to="/logout" className = "nav-link" onclick={this.props.logout()}>Logout</Link></li>
-                            )
-                        }
+                            )}
+
 
                     </ul>
                 </div>
