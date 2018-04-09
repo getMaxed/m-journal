@@ -18,11 +18,18 @@ class LoadingComponent extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
+        if (nextProps.notesLoading === -1 && nextProps.user !== null) {
+            this.props.getNotes()
+        }
     }
 
     render() {
-
+        const {userLoading, notesLoading, user} = this.props
+        if ((!userLoading && !notesLoading) || this.props.user === null) {
+            return <div>{children}</div>
+        } else {
+            return <div><h2>Loading...</h2></div>
+        }
     }
 }
 
